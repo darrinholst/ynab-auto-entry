@@ -1,0 +1,14 @@
+http://localhost:7071
+
+who=anyone
+when=05-07-2019
+where=anywhere
+amount=12.54
+accountId=
+budgetId=
+--
+
+--
+GET /api/AddYnabTransaction?who=:who&when=:when&where=:where&amount=:amount&accountId=:accountId&budgetId=:budgetId
+
+

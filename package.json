@@ -1,0 +1,7 @@
+{
+  "name": "ynab-auto-entry",
+  "version": "1.0.0",
+  "dependencies": {
+    "ynab": "^1.12.0"
+  }
+}

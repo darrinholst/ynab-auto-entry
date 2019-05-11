@@ -1,0 +1,16 @@
+https://api.youneedabudget.com
+
+Authorization: Bearer 
+
+budgetId=
+--
+
+--
+GET /v1/budgets
+
+--
+GET /v1/budgets/:budgetId/accounts
+
+--
+GET /v1/budgets/:budgetId/transactions
+
