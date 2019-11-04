@@ -1,7 +1,28 @@
 {
   "name": "ynab-auto-entry",
   "version": "1.0.0",
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
   "dependencies": {
     "ynab": "^1.12.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "dirty-chai": "^2.0.1",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "mocha": "^6.2.2",
+    "prettier": "^1.18.2",
+    "sinon": "^7.5.0",
+    "sinon-chai": "^3.3.0"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "printWidth": 80,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "trailingComma": "es5"
   }
 }
