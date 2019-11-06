@@ -15,6 +15,7 @@ const MATCHERS = [
 
 module.exports = async function(context, req) {
     try {
+        context.log('Running...')
         const {budgetId} = req.query;
         const {accountId, parts, fields} = findMatcher(req.body.toString());
         const who = parts[fields.who];
@@ -22,6 +23,7 @@ module.exports = async function(context, req) {
         const where = parts[fields.where];
         const amount = parts[fields.amount];
 
+        context.log(`Matched to ${accountId}`);
         const transaction = {
             account_id: accountId,
             date: new Date(when).toISOString().split('T')[0],
