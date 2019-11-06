@@ -12,12 +12,12 @@ const {expect} = chai;
 
 describe('ParseAndAdd', () => {
     const EXAMPLE_1 = `
-      Account ending in 1234 
+      Account ending in 1234
       on 08/05/1972, at Who's Lounge, in the amount of $452.99 fumullins
     `;
     const EXAMPLE_2 = `
-        <p>A purchase exceeding the amount you specified has occurred</p>
-        <p>Location : Who's Lounge, Madrid, IA<BR>Transaction Date : 08/05/1972<BR>Purchase Amount : $452.99</p>
+      <p>A purchase exceeding the amount you specified has occurred</p>
+      <p>Location : Who's Lounge, Madrid, IA<BR>Transaction Date : 08/05/1972<BR>Purchase Amount : $452.99</p>
     `;
 
     let context;
@@ -27,17 +27,8 @@ describe('ParseAndAdd', () => {
     beforeEach(() => {
         ynabApi = {transactions: {createTransaction: sinon.stub()}};
         sinon.stub(ynab, 'API').returns(ynabApi);
-
-        context = {
-            log: sinon.stub(),
-        };
-
-        request = {
-            query: {
-                budgetId: 'budget-id',
-                accountId: 'account-id',
-            },
-        };
+        context = {log: sinon.stub()};
+        request = {query: {budgetId: 'budget-id'}};
     });
 
     afterEach(() => {
@@ -54,7 +45,7 @@ describe('ParseAndAdd', () => {
             .calledOnce()
             .calledWith('budget-id', {
                 transaction: {
-                    account_id: 'account-id',
+                    account_id: 'a90346df-e8d2-4b12-b534-3d90d15dcf5a',
                     amount: -452990,
                     date: '1972-08-05',
                     memo: '1234',
@@ -73,7 +64,7 @@ describe('ParseAndAdd', () => {
             .calledOnce()
             .calledWith('budget-id', {
                 transaction: {
-                    account_id: 'account-id',
+                    account_id: 'a4fa5bab-e050-4488-970c-c4429214f89b',
                     amount: -452990,
                     date: '1972-08-05',
                     memo: "Who's Lounge",
