@@ -19,6 +19,10 @@ describe('ParseAndAdd', () => {
       <p>A purchase exceeding the amount you specified has occurred</p>
       <p>Location : Who's Lounge, Madrid, IA<BR>Transaction Date : 08/05/1972<BR>Purchase Amount : $452.99</p>
     `;
+    const BUILD_EXAMPLE = (payee) => `
+      Account ending in 1234
+      on 08/05/1972, at ${payee}, in the amount of $452.99 fumullins
+    `;
 
     let context;
     let request;
@@ -71,5 +75,28 @@ describe('ParseAndAdd', () => {
                     payee_name: "Who's Lounge",
                 },
             });
+    });
+
+    [
+        ['FAREWAY STORES', 'Fareway'],
+        ['HY-VEE #1234', 'Hy-Vee'],
+    ].forEach(([actual, expected]) => {
+        it(`should normalize the ${expected} payee`, async () => {
+            request.body = BUILD_EXAMPLE(actual);
+
+            await f(context, request);
+
+            expect(ynabApi.transactions.createTransaction)
+                .calledOnce()
+                .calledWith('budget-id', {
+                    transaction: {
+                        account_id: 'a90346df-e8d2-4b12-b534-3d90d15dcf5a',
+                        amount: -452990,
+                        date: '1972-08-05',
+                        memo: '1234',
+                        payee_name: expected,
+                    },
+                });
+        });
     });
 });

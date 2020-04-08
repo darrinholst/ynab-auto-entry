@@ -13,9 +13,9 @@ const MATCHERS = [
     },
 ];
 
-module.exports = async function(context, req) {
+module.exports = async function (context, req) {
     try {
-        context.log('Running...')
+        context.log('Running...');
         const {budgetId} = req.query;
         const {accountId, parts, fields} = findMatcher(req.body.toString());
         const who = parts[fields.who];
@@ -28,7 +28,7 @@ module.exports = async function(context, req) {
             account_id: accountId,
             date: new Date(when).toISOString().split('T')[0],
             amount: -amount.replace(/\D/g, '') * 10,
-            payee_name: where,
+            payee_name: normalizePayee(where),
             memo: who,
         };
 
@@ -40,6 +40,23 @@ module.exports = async function(context, req) {
         context.res = {status: 400};
     }
 };
+
+function normalizePayee(payee) {
+    const normalized = [
+        [/^fareway.*/i, 'Fareway'],
+        [/^hy-vee.*/i, 'Hy-Vee'],
+        [/^apple\.com.*/i, 'Apple'],
+        [/^orscheln.*/i, 'Orschelens'],
+        [/^caseys.*/i, 'Caseys'],
+        [/^dollar.*/i, 'Dollar Store'],
+        [/^samsclub.*/i, 'Sams Club'],
+        [/^wal-mart.*/i, 'Walmart'],
+        [/^wm super.*/i, 'Walmart'],
+        [/^menards.*/i, 'Menards'],
+    ].find(([regex]) => regex.test(payee));
+
+    return normalized ? normalized[1] : payee;
+}
 
 function findMatcher(body) {
     const matcher = MATCHERS.find(({regexp}) => regexp.test(body));
