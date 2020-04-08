@@ -6,6 +6,7 @@
     "test": "mocha **/*.spec.js"
   },
   "dependencies": {
+    "luxon": "^1.23.0",
     "ynab": "^1.18.0"
   },
   "devDependencies": {

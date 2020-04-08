@@ -1,4 +1,5 @@
 const ynab = require('ynab');
+const {DateTime} = require('luxon');
 
 const MATCHERS = [
     {
@@ -22,6 +23,9 @@ module.exports = async function (context, req) {
         const when = parts[fields.when];
         const where = parts[fields.where];
         const amount = parts[fields.amount];
+        const transactionTime = DateTime.local()
+            .setZone('America/Chicago')
+            .toLocaleString(DateTime.TIME_24_SIMPLE);
 
         context.log(`Matched to ${accountId}`);
         const transaction = {
@@ -29,7 +33,7 @@ module.exports = async function (context, req) {
             date: new Date(when).toISOString().split('T')[0],
             amount: -amount.replace(/\D/g, '') * 10,
             payee_name: normalizePayee(where),
-            memo: who,
+            memo: `${transactionTime} ${who}`,
         };
 
         const api = new ynab.API(process.env.YNAB_TOKEN);

@@ -29,6 +29,7 @@ describe('ParseAndAdd', () => {
     let ynabApi;
 
     beforeEach(() => {
+        sinon.useFakeTimers(1586389116831);
         ynabApi = {transactions: {createTransaction: sinon.stub()}};
         sinon.stub(ynab, 'API').returns(ynabApi);
         context = {log: sinon.stub()};
@@ -52,7 +53,7 @@ describe('ParseAndAdd', () => {
                     account_id: 'a90346df-e8d2-4b12-b534-3d90d15dcf5a',
                     amount: -452990,
                     date: '1972-08-05',
-                    memo: '1234',
+                    memo: '18:38 1234',
                     payee_name: "Who's Lounge",
                 },
             });
@@ -71,7 +72,7 @@ describe('ParseAndAdd', () => {
                     account_id: 'a4fa5bab-e050-4488-970c-c4429214f89b',
                     amount: -452990,
                     date: '1972-08-05',
-                    memo: "Who's Lounge",
+                    memo: "18:38 Who's Lounge",
                     payee_name: "Who's Lounge",
                 },
             });
@@ -93,7 +94,7 @@ describe('ParseAndAdd', () => {
                         account_id: 'a90346df-e8d2-4b12-b534-3d90d15dcf5a',
                         amount: -452990,
                         date: '1972-08-05',
-                        memo: '1234',
+                        memo: '18:38 1234',
                         payee_name: expected,
                     },
                 });
