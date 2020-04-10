@@ -57,6 +57,8 @@ function normalizePayee(payee) {
         [/^wal-mart.*/i, 'Walmart'],
         [/^wm super.*/i, 'Walmart'],
         [/^menards.*/i, 'Menards'],
+        [/^target.*/i, 'Target'],
+        [/^petsmart.*/i, 'Petsmart'],
     ].find(([regex]) => regex.test(payee));
 
     return normalized ? normalized[1] : payee;
