@@ -47,19 +47,24 @@ module.exports = async function (context, req) {
 
 function normalizePayee(payee) {
     const normalized = [
-        [/^fareway.*/i, 'Fareway'],
-        [/^hy-vee.*/i, 'Hy-Vee'],
-        [/^apple\.com.*/i, 'Apple'],
-        [/^orscheln.*/i, 'Orschelens'],
-        [/^caseys.*/i, 'Caseys'],
-        [/^dollar.*/i, 'Dollar Store'],
-        [/^samsclub.*/i, 'Sams Club'],
-        [/^wal-mart.*/i, 'Walmart'],
-        [/^wm super.*/i, 'Walmart'],
-        [/^menards.*/i, 'Menards'],
-        [/^target.*/i, 'Target'],
-        [/^petsmart.*/i, 'Petsmart'],
-    ].find(([regex]) => regex.test(payee));
+        ['^fareway', 'Fareway'],
+        ['^hy-vee', 'Hy-Vee'],
+        ['^apple.com', 'Apple'],
+        ['^orscheln', 'Orschelens'],
+        ['^caseys', 'Caseys'],
+        ['^dollar', 'Dollar Store'],
+        ['^samsclub', 'Sams Club'],
+        ['^wal-mart', 'Walmart'],
+        ['^wm super', 'Walmart'],
+        ['^menards', 'Menards'],
+        ['^target', 'Target'],
+        ['^petsmart', 'Petsmart'],
+        ['petco', 'Petco'],
+        ['^amzn', 'Amazon'],
+        ['^amazon', 'Amazon'],
+        ['home depot', 'Home Depot'],
+        ['ampride', 'Ampride'],
+    ].find(([regex]) => new RegExp(regex, 'i').test(payee));
 
     return normalized ? normalized[1] : payee;
 }
