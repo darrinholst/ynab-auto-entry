@@ -4,12 +4,12 @@ const {DateTime} = require('luxon');
 const MATCHERS = [
     {
         accountId: 'a90346df-e8d2-4b12-b534-3d90d15dcf5a',
-        regexp: /Account ending in (\d+).*on (\d{2}\/\d{2}\/\d{4}), at (.*), .*in the amount of (\S+)/s,
+        regexp: /Account ending in (\d+).*on (\d{1,2}\/\d{1,2}\/\d{4}), at (.*), .*in the amount of (\S+)/s,
         fields: {who: 1, when: 2, where: 3, amount: 4},
     },
     {
         accountId: 'a4fa5bab-e050-4488-970c-c4429214f89b',
-        regexp: /Location ?: ?([^,]*).*Date ?: ?(\d{2}\/\d{2}\/\d{4}).*Amount ?: ?(\S+)/s,
+        regexp: /Location ?: ?([^,]*).*Date ?: ?(\d{1,2}\/\d{1,2}\/\d{4}).*Amount ?: ?(\S+)/s,
         fields: {who: 1, when: 2, where: 1, amount: 3},
     },
 ];
@@ -56,7 +56,7 @@ function normalizePayee(payee) {
         ['^fleet', 'Fleet Farm'],
         ['^harland', 'Ace Hardware'],
         ['^hy-vee', 'Hy-Vee'],
-        ['^lowe', 'Lowe\'s'],
+        ['^lowe', "Lowe's"],
         ['^mcdonald', 'McDonalds'],
         ['^menards', 'Menards'],
         ['^orscheln', 'Orschelens'],
@@ -70,6 +70,7 @@ function normalizePayee(payee) {
         ['home depot', 'Home Depot'],
         ['petco', 'Petco'],
         ['xbox', 'Microsoft'],
+        ['chuys', 'Chuys'],
     ].find(([regex]) => new RegExp(regex, 'i').test(payee));
 
     return normalized ? normalized[1] : payee;

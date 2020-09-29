@@ -13,7 +13,7 @@ const {expect} = chai;
 describe('ParseAndAdd', () => {
     const EXAMPLE_1 = `
       Account ending in 1234
-      on 08/05/1972, at Who's Lounge, in the amount of $452.99 fumullins
+      on 8/5/1972, at Who's Lounge, in the amount of $452.99 fumullins
     `;
     const EXAMPLE_2 = `
       <p>A purchase exceeding the amount you specified has occurred</p>
@@ -80,7 +80,9 @@ describe('ParseAndAdd', () => {
 
     [
         ['FAREWAY STORES', 'Fareway'],
+        ['DOLLAR-GENERAL', 'Dollar Store'],
         ['HY-VEE #1234', 'Hy-Vee'],
+        ['Microsoft*Xbox', 'Microsoft'],
     ].forEach(([actual, expected]) => {
         it(`should normalize the ${expected} payee`, async () => {
             request.body = BUILD_EXAMPLE(actual);
