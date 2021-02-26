@@ -50,7 +50,7 @@ function normalizePayee(payee) {
         ['^amazon', 'Amazon'],
         ['^amzn', 'Amazon'],
         ['^apple.com', 'Apple'],
-        ['^caseys', 'Caseys'],
+        ['^casey', "Casey's"],
         ['^dollar', 'Dollar Store'],
         ['^fareway', 'Fareway'],
         ['^fleet', 'Fleet Farm'],

@@ -83,6 +83,7 @@ describe('ParseAndAdd', () => {
         ['DOLLAR-GENERAL', 'Dollar Store'],
         ['HY-VEE #1234', 'Hy-Vee'],
         ['Microsoft*Xbox', 'Microsoft'],
+        ["Casey's General", "Casey's"],
     ].forEach(([actual, expected]) => {
         it(`should normalize the ${expected} payee`, async () => {
             request.body = BUILD_EXAMPLE(actual);
