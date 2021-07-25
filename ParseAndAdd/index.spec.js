@@ -55,6 +55,7 @@ describe('ParseAndAdd', () => {
                     date: '1972-08-05',
                     memo: '18:38 1234',
                     payee_name: "Who's Lounge",
+                    approved: false,
                 },
             });
     });
@@ -74,6 +75,7 @@ describe('ParseAndAdd', () => {
                     date: '1972-08-05',
                     memo: "18:38 Who's Lounge",
                     payee_name: "Who's Lounge",
+                    approved: false,
                 },
             });
     });
@@ -99,6 +101,7 @@ describe('ParseAndAdd', () => {
                         date: '1972-08-05',
                         memo: '18:38 1234',
                         payee_name: expected,
+                        approved: /fareway/i.test(expected),
                     },
                 });
         });

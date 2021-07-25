@@ -28,12 +28,15 @@ module.exports = async function (context, req) {
             .toLocaleString(DateTime.TIME_24_SIMPLE);
 
         context.log(`Matched to ${accountId}`);
+
+        const {name, isApproved} = normalizePayee(where);
         const transaction = {
             account_id: accountId,
             date: new Date(when).toISOString().split('T')[0],
             amount: -amount.replace(/\D/g, '') * 10,
-            payee_name: normalizePayee(where),
+            payee_name: name,
             memo: `${transactionTime} ${who}`,
+            approved: isApproved,
         };
 
         const api = new ynab.API(process.env.YNAB_TOKEN);
@@ -52,7 +55,7 @@ function normalizePayee(payee) {
         ['^apple.com', 'Apple'],
         ['^casey', "Casey's"],
         ['^dollar', 'Dollar Store'],
-        ['^fareway', 'Fareway'],
+        ['^fareway', 'Fareway', true],
         ['^fleet', 'Fleet Farm'],
         ['^harland', 'Ace Hardware'],
         ['^hy-vee', 'Hy-Vee'],
@@ -65,15 +68,16 @@ function normalizePayee(payee) {
         ['^target', 'Target'],
         ['^wal-mart', 'Walmart'],
         ['^wm super', 'Walmart'],
-        ['ampride', 'Ampride'],
+        ['ampride', 'Ampride', true],
         ['car wash', 'Car Wash'],
         ['home depot', 'Home Depot'],
         ['petco', 'Petco'],
         ['xbox', 'Microsoft'],
         ['chuys', 'Chuys'],
+        ['.*', payee],
     ].find(([regex]) => new RegExp(regex, 'i').test(payee));
 
-    return normalized ? normalized[1] : payee;
+    return {name: normalized[1], isApproved: Boolean(normalized[2])};
 }
 
 function findMatcher(body) {
