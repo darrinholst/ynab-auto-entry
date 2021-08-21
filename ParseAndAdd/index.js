@@ -4,7 +4,7 @@ const {DateTime} = require('luxon');
 const MATCHERS = [
     {
         accountId: 'a90346df-e8d2-4b12-b534-3d90d15dcf5a',
-        regexp: /Account ending in (\d+).*on (\d{1,2}\/\d{1,2}\/\d{4}), at (.*), .*in the amount of (\S+)/s,
+        regexp: /ending in (\d+).*on (\d{1,2}\/\d{1,2}\/\d{4}), at (.*), .*in the amount of (\S+)/s,
         fields: {who: 1, when: 2, where: 3, amount: 4},
     },
     {

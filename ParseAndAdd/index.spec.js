@@ -12,7 +12,7 @@ const {expect} = chai;
 
 describe('ParseAndAdd', () => {
     const EXAMPLE_1 = `
-      Account ending in 1234
+      Card ending in 1234
       on 8/5/1972, at Who's Lounge, in the amount of $452.99 fumullins
     `;
     const EXAMPLE_2 = `
@@ -20,7 +20,7 @@ describe('ParseAndAdd', () => {
       <p>Location : Who's Lounge, Madrid, IA<BR>Transaction Date : 08/05/1972<BR>Purchase Amount : $452.99</p>
     `;
     const BUILD_EXAMPLE = (payee) => `
-      Account ending in 1234
+      Card ending in 1234
       on 08/05/1972, at ${payee}, in the amount of $452.99 fumullins
     `;
 
