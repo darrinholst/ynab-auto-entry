@@ -11,19 +11,23 @@ chai.use(dirtyChai);
 const {expect} = chai;
 
 describe('ParseAndAdd', () => {
-    const EXAMPLE_1 = `
+    const ACCOUNT_1 = `
       Card ending in 1234
       on 8/5/1972, at Who's Lounge, in the amount of $452.99 fumullins
     `;
 
-    const EXAMPLE_2 = `
+    const ACCOUNT_2 = `
       <p>A purchase exceeding the amount you specified has occurred</p>
       <p>Location : Who's Lounge, Madrid, IA<BR>Transaction Date : 08/05/1972<BR>Purchase Amount : $452.99</p>
     `;
 
-    const EXAMPLE_3 = `
+    const ACCOUNT_3 = `
       <p>Pending charge for $452.99 on 08/05 13:39 EDT at Who's =
 Lounge, PERRY IA for Credit card ending in 1234.</p>
+    `;
+
+    const ACCOUNT_3_NO_AMOUNT = `
+      <p>Pending charge on 08/05 20:26 EDT at CASEYS GEN STORE, WOODWARD IA for Credit card ending in 1234.</p>
     `;
 
     const BUILD_EXAMPLE = (payee) => `
@@ -47,8 +51,8 @@ Lounge, PERRY IA for Credit card ending in 1234.</p>
         sinon.restore();
     });
 
-    it('should add transaction from matcher 1', async () => {
-        request.body = EXAMPLE_1;
+    it('should add transaction for account 1', async () => {
+        request.body = ACCOUNT_1;
 
         await f(context, request);
 
@@ -67,8 +71,8 @@ Lounge, PERRY IA for Credit card ending in 1234.</p>
             });
     });
 
-    it('should add transaction from matcher 2', async () => {
-        request.body = EXAMPLE_2;
+    it('should add transaction for account 2', async () => {
+        request.body = ACCOUNT_2;
 
         await f(context, request);
 
@@ -87,8 +91,8 @@ Lounge, PERRY IA for Credit card ending in 1234.</p>
             });
     });
 
-    it('should add transaction from matcher 3', async () => {
-        request.body = EXAMPLE_3;
+    it('should add transaction for account 3', async () => {
+        request.body = ACCOUNT_3;
 
         await f(context, request);
 
@@ -102,6 +106,26 @@ Lounge, PERRY IA for Credit card ending in 1234.</p>
                     date: '2020-08-05',
                     memo: '18:38 1234',
                     payee_name: "Who's Lounge",
+                    approved: false,
+                },
+            });
+    });
+
+    it('should add transaction for account 3 with no amount', async () => {
+        request.body = ACCOUNT_3_NO_AMOUNT;
+
+        await f(context, request);
+
+        expect(context.res).to.eql({status: 200});
+        expect(ynabApi.transactions.createTransaction)
+            .calledOnce()
+            .calledWith('budget-id', {
+                transaction: {
+                    account_id: 'f4d3a509-068e-45bc-98c5-5bdc8d9cc40a',
+                    amount: -1000,
+                    date: '2020-08-05',
+                    memo: '18:38 1234',
+                    payee_name: "Casey's",
                     approved: false,
                 },
             });

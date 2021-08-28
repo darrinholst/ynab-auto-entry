@@ -17,6 +17,11 @@ const MATCHERS = [
         regexp: /Pending charge for (\S+) on (\d{1,2}\/\d{1,2}).*at ([^,]*).*ending in (\d{1,4})\./is,
         fields: {who: 4, when: 2, where: 3, amount: 1},
     },
+    {
+        accountId: 'f4d3a509-068e-45bc-98c5-5bdc8d9cc40a',
+        regexp: /Pending charge on (\d{1,2}\/\d{1,2}).*at ([^,]*).*ending in (\d{1,4})\./is,
+        fields: {who: 3, when: 1, where: 2, amount: 99},
+    },
 ];
 
 module.exports = async function (context, req) {
@@ -27,7 +32,7 @@ module.exports = async function (context, req) {
         const who = parts[fields.who];
         const when = normalizeTransactionDate(parts[fields.when]);
         const where = parts[fields.where].replace(/=\n/, '');
-        const amount = parts[fields.amount];
+        const amount = parts[fields.amount] || '$1.00';
         const transactionTime = DateTime.local()
             .setZone('America/Chicago')
             .toLocaleString(DateTime.TIME_24_SIMPLE);
