@@ -15,10 +15,17 @@ describe('ParseAndAdd', () => {
       Card ending in 1234
       on 8/5/1972, at Who's Lounge, in the amount of $452.99 fumullins
     `;
+
     const EXAMPLE_2 = `
       <p>A purchase exceeding the amount you specified has occurred</p>
       <p>Location : Who's Lounge, Madrid, IA<BR>Transaction Date : 08/05/1972<BR>Purchase Amount : $452.99</p>
     `;
+
+    const EXAMPLE_3 = `
+      <p>Pending charge for $452.99 on 08/05 13:39 EDT at Who's =
+Lounge, PERRY IA for Credit card ending in 1234.</p>
+    `;
+
     const BUILD_EXAMPLE = (payee) => `
       Card ending in 1234
       on 08/05/1972, at ${payee}, in the amount of $452.99 fumullins
@@ -74,6 +81,26 @@ describe('ParseAndAdd', () => {
                     amount: -452990,
                     date: '1972-08-05',
                     memo: "18:38 Who's Lounge",
+                    payee_name: "Who's Lounge",
+                    approved: false,
+                },
+            });
+    });
+
+    it('should add transaction from matcher 3', async () => {
+        request.body = EXAMPLE_3;
+
+        await f(context, request);
+
+        expect(context.res).to.eql({status: 200});
+        expect(ynabApi.transactions.createTransaction)
+            .calledOnce()
+            .calledWith('budget-id', {
+                transaction: {
+                    account_id: 'f4d3a509-068e-45bc-98c5-5bdc8d9cc40a',
+                    amount: -452990,
+                    date: '2020-08-05',
+                    memo: '18:38 1234',
                     payee_name: "Who's Lounge",
                     approved: false,
                 },

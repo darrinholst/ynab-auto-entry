@@ -12,6 +12,11 @@ const MATCHERS = [
         regexp: /Location ?: ?([^,]*).*Date ?: ?(\d{1,2}\/\d{1,2}\/\d{4}).*Amount ?: ?(\S+)/s,
         fields: {who: 1, when: 2, where: 1, amount: 3},
     },
+    {
+        accountId: 'f4d3a509-068e-45bc-98c5-5bdc8d9cc40a',
+        regexp: /Pending charge for (\S+) on (\d{1,2}\/\d{1,2}).*at ([^,]*).*ending in (\d{1,4})\./is,
+        fields: {who: 4, when: 2, where: 3, amount: 1},
+    },
 ];
 
 module.exports = async function (context, req) {
@@ -20,8 +25,8 @@ module.exports = async function (context, req) {
         const {budgetId} = req.query;
         const {accountId, parts, fields} = findMatcher(req.body.toString());
         const who = parts[fields.who];
-        const when = parts[fields.when];
-        const where = parts[fields.where];
+        const when = normalizeTransactionDate(parts[fields.when]);
+        const where = parts[fields.where].replace(/=\n/, '');
         const amount = parts[fields.amount];
         const transactionTime = DateTime.local()
             .setZone('America/Chicago')
@@ -47,6 +52,10 @@ module.exports = async function (context, req) {
         context.res = {status: 400};
     }
 };
+
+function normalizeTransactionDate(date) {
+    return date.length < 6 ? `${date}/${new Date().getFullYear()}` : date;
+}
 
 function normalizePayee(payee) {
     const normalized = [
