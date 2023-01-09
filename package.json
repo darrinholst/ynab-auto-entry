@@ -7,7 +7,7 @@
     "verify": "npm run lint && npm run test"
   },
   "dependencies": {
-    "luxon": "^1.25.0",
+    "luxon": "^1.28.1",
     "ynab": "^1.20.0"
   },
   "devDependencies": {
