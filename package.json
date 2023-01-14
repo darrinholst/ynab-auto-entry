@@ -22,9 +22,7 @@
     "sinon-chai": "^3.7.0"
   },
   "prettier": {
-    "bracketSpacing": false,
-    "printWidth": 80,
-    "singleQuote": true,
-    "tabWidth": 4
+    "printWidth": 120,
+    "singleQuote": true
   }
 }
