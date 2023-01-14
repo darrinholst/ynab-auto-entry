@@ -88,6 +88,7 @@ function normalizePayee(payee) {
         ['petco', 'Petco'],
         ['xbox', 'Microsoft'],
         ['chuys', 'Chuys'],
+        ['Store', 'McDonalds'],
         ['.*', payee],
     ].find(([regex]) => new RegExp(regex, 'i').test(payee));
 

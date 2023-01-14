@@ -137,6 +137,7 @@ Lounge, PERRY IA for Credit card ending in 1234.</p>
         ['HY-VEE #1234', 'Hy-Vee'],
         ['Microsoft*Xbox', 'Microsoft'],
         ["Casey's General", "Casey's"],
+        ['Store', 'McDonalds'],
     ].forEach(([actual, expected]) => {
         it(`should normalize the ${expected} payee`, async () => {
             request.body = BUILD_EXAMPLE(actual);
